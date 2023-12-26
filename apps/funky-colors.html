@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas Application</title>
+    <style>
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+
+    <script>
+        // Get the canvas element
+        const canvas = document.getElementById("myCanvas");
+        const c = canvas.getContext("2d");
+
+        // Set canvas width and height
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+
+        // Select random color
+        const colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink", "black"];
+        let randomColor = "";
+        const defaultFillStyle = c.fillStyle;
+
+        setInterval(() => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            for(x = 0; x < 10000; x++) {
+                randomColor = colors[Math.floor(Math.random() * colors.length)];
+                c.fillStyle = randomColor;
+
+                let randomX = Math.random() * canvas.width >= canvas.width - 50 ? canvas.width - 50 : Math.random() * canvas.width;
+                let randomY = Math.random() * canvas.height >= canvas.height - 50 ? canvas.height - 50 : Math.random() * canvas.height;
+
+                c.fillRect(randomX, randomY, 50, 50);
+                c.fillStyle = defaultFillStyle;
+            }
+        }, 16);
+
+    </script>
+</body>
+</html>
