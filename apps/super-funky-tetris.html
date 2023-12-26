@@ -85,6 +85,8 @@
 
         // Tetris game logic
         const board = createBoard(10, 20);
+        let defaultFallSpeed = 1000;
+        let fallSpeed = defaultFallSpeed;
         let currentPiece = getRandomPiece();
         let currentX = 4;
         let currentY = 0;
@@ -229,7 +231,19 @@
             }
         });
 
-        setInterval(moveDown, 1000);
+        fallInterval = setInterval(moveDown, fallSpeed);
+
+        function boostFallInterval(boostTime = 2500) {
+            clearInterval(fallInterval);
+            fallSpeed = Math.floor(Math.random() * 100) + 32;
+            fallInterval = setInterval(moveDown, fallSpeed);
+
+            setTimeout(function() {
+                clearInterval(fallInterval);
+                fallInterval = setInterval(moveDown, defaultFallSpeed);
+            }, boostTime);
+
+        }
 
         draw();
 
@@ -246,13 +260,21 @@
 
         function rollGameModifier() {
             const random = Math.floor(Math.random() * 100);
-            if (random < 25) {
+
+            
+            if (random < 5) {
+                displayNofication("Try Another Piece!");
+                currentPiece = getRandomPiece();
+            } else if (random < 15) {
+                displayNofication("Quick!");
+                boostFallInterval();
+            } else if (random < 25) {
                 displayNofication("Flipped!");
                 rotatePiece();
-            } else if (random < 50) {
+            } else if (random < 35) {
                 displayNofication("Move Left!");
                 moveLeft();
-            } else if (random < 75) {
+            } else if (random < 45) {
                 displayNofication("Move Right!");
                 moveRight();
             }
